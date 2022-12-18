@@ -212,34 +212,42 @@ class _DashboardState extends State<Dashboard> {
             ),
           const SizedBox(height: 10),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: (widget.xAxis * widget.yAxis),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: widget.xAxis,
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
-                ),
-                itemBuilder: (context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: getBoxColor(index),
-                      // border: Border.all(color: getBorderColor)
-                    ),
-                    child: Center(
-                      child: Text(
-                        widget.message[index],
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                              fontSize: getFontSizeByxAxis(),
-                              fontWeight: FontWeight.w400,
-                              color: getTextColor(index),
-                            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                child: ColoredBox(
+                  color: Colors.white /*Theme.of(context).primaryColor*/,
+                  child: Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: (widget.xAxis * widget.yAxis),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: widget.xAxis,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
                       ),
+                      itemBuilder: (context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: getBoxColor(index),
+                            border: Border.all(color: getBorderColor(index)),
+                          ),
+                          child: Center(
+                            child: Text(
+                              widget.message[index],
+                              style: Theme.of(context).textTheme.headline6!.copyWith(
+                                    fontSize: getFontSizeByxAxis(),
+                                    fontWeight: FontWeight.w400,
+                                    color: getTextColor(index),
+                                  ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
           )
@@ -263,6 +271,13 @@ class _DashboardState extends State<Dashboard> {
       return Colors.white;
     }
     return Colors.black;
+  }
+
+  Color getBorderColor(int index) {
+    if (result.contains(index)) {
+      return Colors.white;
+    }
+    return Colors.grey.shade300;
   }
 
   Color getBoxColor(int index) {
